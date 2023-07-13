@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza-Cart-API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="pizza.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body style="background-image: url('public/greyscale.jpg'); background-repeat: no-repeat; background-size: cover;; color: #f4f3ee;" x-data="pizzaCart" x-cloak>
+    <br><br>
+    <div class="container">
+        <div style="background-image: url('public/components.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div style="background-color: #252422; padding: 1em;">
+                <div>
+                    Username: <input type="text" placeholder="Type username here..." x-model="username">
+                    <button type="button" class="btn btn-success" @click="login" x-show="!cartID">Login</button>
+                    <button type="button" class="btn btn-danger" @click="logout" x-show="username && cartID">Logout</button>
+                </div>
+                <div x-show="cartID">
+                    <span>Cart Code: </span> <span x-text="cartID"></span>
+                </div>
+            </div>
+            <br><br>
+            <div style="text-align: center; background-color: #d00000; padding: 5px; font-family: Harlow Solid Italic;" >
+                <h1>Perfect Pizzeria</h1>
+            </div>
+                <br>
+    
+                <!--------------------SHOPPING CART SECTION--------------------->
+    
+                <div class="container text-center" x-show="totalCost > 0">
+                    <div style="text-align: center;">
+                        <div style="display: inline-block;  padding: 1em; font-family: Harlow Solid Italic;">
+                            <h2 style="text-align: center;">Shopping Cart</h2>
+                        </div>
+                    </div>
+                   
+                    <br>
+                    <hr>
+                    <br>
+                    <table class="table table-dark table-striped-columns">
+                        <thead>
+                            <tr>
+                                <th scope="col">Flavour</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="pizza in cartPizzas">
+                                <tr>
+                                    <td x-text="pizza.flavour"></td>
+                                    <td x-text="pizza.size"></td>
+                                    <td x-text="pizza.price"></td>
+                                    <td>
+                                        <button @click="addToCart(pizza.id)">+</button>
+                                        x<span x-text="pizza.qty"></span>
+                                        <button @click="removeFromCart(pizza.id)">-</button>
+                                    </td>
+                                    <td x-text="pizza.total.toFixed(2)"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <div style="background-color: #252422;">
+                        <div x-text="message" style="border: solid; border: #a50104;">
+                        </div>
+                        <div>
+                            <strong>
+                                <span>Total Cost R:</span> <span x-text="totalCost"></span>
+                            </strong>
+                        </div>
+                    </div>
+                    <hr>
+    
+                    <div>
+                        <span>Payment amount</span>
+                        <input type="number" placeholder="0" x-model="money">
+                        <button type="button" class="btn btn-warning" @click="payForCart()">Pay</button>
+                    </div>
+                </div>
+                <br>
+            </div>
+        
+
+            <!-----------------PIZZA DISPLAY OF DELICIOUS PICTURES------------------>
+            <div class="container text-center" x-show="cartID != ''">
+                <div class="row align-items-start">
+                    <div class="col p-3"
+                        style="border: solid #ffb703; margin: 4px; background-image: url('public/greyscale.jpg'); background-repeat: repeat; background-size: cover;">
+                        <h2 style="text-align: left;">Small Pizza</h2>
+                        <br>
+                        <div>
+                            <img src="" width="250" alt="Avocado Pizza">
+                        </div>
+                        <br>
+                        <h3 style="text-align: left;">From 29.99</h3>
+                        <div style="text-align: justify;">
+                            Enjoy this Avocado Pizza with pesto sauce, fresh veggies, creamy avocado, and flaky puff
+                            pastry crust. An earthy burst of satisfying flavor.
+                        </div>
+                        <br>
+                        <div>
+                            <button type="button" class="btn btn-light">Buy</button>
+                        </div>
+
+                    </div>
+
+                    <div class="col p-3"
+                        style="border: solid #ffb703; background-image: url('public/greyscale.jpg'); background-repeat: repeat; background-size: cover; margin: 4px;">
+                        <h2 style="text-align: left;">Medium Pizza</h2>
+                        <br>
+                        <div>
+                            <img src="" width="250" alt="Cheesy pizza with mushrooms">
+                        </div>
+                        <br>
+                        <h3 style="text-align: left;">From 69.99 </h3>
+                        <div style="text-align: justify;">
+                            Yearning for a cheesy delight? This cheesy pizza with mushrooms is a decadent treat that's
+                            sure to satisfy your cravings and leave you wanting more.
+                        </div>
+                        <br>
+                        <div>
+                            <button type="button" class="btn btn-light">Buy</button>
+                        </div>
+                    </div>
+                    <div class="col p-3"
+                        style="border: solid #ffb703; background-image: url('public/greyscale.jpg'); background-repeat: repeat; background-size: cover; margin: 4px;">
+                        <h2 style="text-align: left;">Large Pizza</h2>
+                        <br>
+                        <div>
+                            <img src="" width="250" alt="Spicy meaty pizza">
+                        </div>
+                        <br>
+                        <h3 style="text-align: left;">From R69.99</h3>
+                        <div style="text-align: justify;">
+                            A pizza topped with savoury, juicy beef seasoned with the perfect blend of herbs and spices.
+                            Enjoy the spicy jalapeno, veggies and beef come together in perfect harmony.
+                        </div>
+                        <br>
+                        <div>
+                            <button type="button" class="btn btn-light">Buy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-----------------ALL CART PIZZAS------------------>
+                <template x-for="pizza in pizzas">
+                    <div style="border: solid; border-color: #252422; padding: 1em; margin: 7px; background-color: #d00000;" class="row align-items-start">
+                        <div style="text-align: left;">
+                            <img src="public/cart_pizzas.jpg" alt="Pizza image">
+                        </div>
+                        <div class="col">
+                          
+                          <br> <br>
+                          </div>
+                          <div class="col">
+                            <span x-text="pizza.flavour"></span><span>:</span> <span x-text="pizza.size"></span> 
+                        </div>                        
+                        <div style="text-align: center;" class="col">
+                           <span>Price: </span>  <span x-text="pizza.price"></span>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-light" @click="addToCart(pizza.id)">Add to cart</button>
+                        </div>
+                            
+                        
+                    </div>
+                </template>
+            </div>
+        <br>
+    </div>
+</body>
+<footer class="shadow-sm p-3 mb-5 bg-body-tertiary" style="color: black;">
+    <p>
+        © 2023 Lawrence & Lumen Holdings. All rights reserved.
+    </p>
+</footer>
+
+</html>
