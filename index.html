@@ -102,7 +102,7 @@
                         <h2 style="text-align: left;">Small Pizza</h2>
                         <br>
                         <div>
-                            <img src="" width="250" alt="Avocado Pizza">
+                            <img src="public/sml_pizza.jpg" width="250" alt="Avocado Pizza">
                         </div>
                         <br>
                         <h3 style="text-align: left;">From 29.99</h3>
@@ -122,7 +122,7 @@
                         <h2 style="text-align: left;">Medium Pizza</h2>
                         <br>
                         <div>
-                            <img src="" width="250" alt="Cheesy pizza with mushrooms">
+                            <img src="public/med_pizza.jpg" width="250" alt="Cheesy pizza with mushrooms">
                         </div>
                         <br>
                         <h3 style="text-align: left;">From 69.99 </h3>
@@ -140,10 +140,11 @@
                         <h2 style="text-align: left;">Large Pizza</h2>
                         <br>
                         <div>
-                            <img src="" width="250" alt="Spicy meaty pizza">
+                            <img src="public/lrg_pizza.jpg" width="250" alt="Spicy meaty pizza">
                         </div>
                         <br>
                         <h3 style="text-align: left;">From R69.99</h3>
+                        <div x-text="smlPizza"></div>
                         <div style="text-align: justify;">
                             A pizza topped with savoury, juicy beef seasoned with the perfect blend of herbs and spices.
                             Enjoy the spicy jalapeno, veggies and beef come together in perfect harmony.
@@ -154,30 +155,37 @@
                         </div>
                     </div>
                 </div>
-
+                <br>
                 <!-----------------ALL CART PIZZAS------------------>
-                <template x-for="pizza in pizzas">
-                    <div style="border: solid; border-color: #252422; padding: 1em; margin: 7px; background-color: #d00000;" class="row align-items-start">
-                        <div style="text-align: left;">
-                            <img src="public/cart_pizzas.jpg" alt="Pizza image">
-                        </div>
-                        <div class="col">
-                          
-                          <br> <br>
-                          </div>
-                          <div class="col">
-                            <span x-text="pizza.flavour"></span><span>:</span> <span x-text="pizza.size"></span> 
-                        </div>                        
-                        <div style="text-align: center;" class="col">
-                           <span>Price: </span>  <span x-text="pizza.price"></span>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-light" @click="addToCart(pizza.id)">Add to cart</button>
-                        </div>
-                            
-                        
-                    </div>
-                </template>
+                
+                    <table class="table table-dark table-striped-columns">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Flavour</th>
+                                <th>Size</th>
+                                <th>Price</th>
+                                <th>Buy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="pizza in pizzas">
+                                <tr>
+                                    <td>
+                                        <img x-bind:src="pizzaImage(pizza)" height="60" alt="Pizza image">
+                                    </td>
+                                    <td x-text="pizza.flavour"></td>
+                                    <td x-text="pizza.size"> </td>
+                                    <td x-text="pizza.price"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-light" @click="addToCart(pizza.id)">Add to cart</button>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+             
+                
             </div>
         <br>
     </div>

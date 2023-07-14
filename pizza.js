@@ -8,9 +8,9 @@ document.addEventListener("alpine:init", () => {
             cartPizzas: [],
             //
             totalCost:0.00, 
-            smlPizza: 0.00, 
-            mediPizza: 0.00, 
-            lrgPizza: 0.00, 
+            smlPizza: '', 
+            mediPizza: '', 
+            lrgPizza: '', 
             smlQuant: 0, 
             medQuant: 0, 
             lrgQuant: 0, 
@@ -97,6 +97,20 @@ document.addEventListener("alpine:init", () => {
                     this.cartPizzas = cartData.pizzas; 
                     this.totalCost = cartData.total.toFixed(2);
                  });
+            },
+
+            pizzaImage(pizza) {
+                return `/public/${pizza.size}.png`
+            },
+
+            featuredPizzas(standby){
+                const featuredPizzasUrl= 'https://pizza-api.projectcodex.net/api/pizzas/featured?username=Thabo'
+                axios.get(featuredPizzasUrl)
+                .then(result => {
+                    this.smlPizza = result.data.pizzas;
+                    this.mediPizza = result.data.pizzas;
+                    this.lrgPizza = result.data.pizzas;
+                });
             },
 
             init() {
