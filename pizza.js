@@ -100,14 +100,20 @@ document.addEventListener("alpine:init", () => {
             },
 
             pizzaImage(pizza) {
-                return `/public/${pizza.size}.png`
+                return `/public/${pizza.size}.jpg`
             },
 
-            featuredPizzas(standby){
+            featuredPizzas(){
                 const featuredPizzasUrl= 'https://pizza-api.projectcodex.net/api/pizzas/featured?username=Thabo'
-                axios.get(featuredPizzasUrl)
-                .then(result => {
-                    this.smlPizza = result.data.pizzas;
+               return axios.get(featuredPizzasUrl)
+               
+            },
+
+            display(){
+            return axios.post('https://pizza-api.projectcodex.net/api/pizzas/featured?username=username_here') 
+            .then(result => {
+                    const access = result.data;
+                    this.smlPizza = access.flavour;
                     this.mediPizza = result.data.pizzas;
                     this.lrgPizza = result.data.pizzas;
                 });
