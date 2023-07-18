@@ -101,11 +101,11 @@ document.addEventListener("alpine:init", () => {
             },
 
             pizzaImage(pizza) {
-                return `public/${pizza.size}.jpg`
+                return `./public/${pizza.size}.jpg`
             },
 
             featuredImages(pizza) {
-                return `public/${pizza.price}.jpg`
+                return `./public/${pizza.price}.jpg`
             },
 
             
